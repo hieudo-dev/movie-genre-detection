@@ -41,6 +41,16 @@ train.shape[0]
 
 y = np.array(train.drop(['Id', 'Genre'],axis=1))
 y.shape
+X_train, X_test, y_train, y_test = train_test_split(train, y, random_state=42, test_size=0.1)
+
+imgs = []
+for name in X_test['Id']:
+    img = image.load_img('Movies_Poster/Multi_Label_dataset/Images/' + name + '.jpg', target_size=(400,400,3))
+    img = image.img_to_array(img)
+    # print(img.shape)
+    img = img / 255
+    imgs.append(img)
+X_test = np.array(imgs)
 
 
 # In[ ]:
@@ -74,49 +84,30 @@ model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy']
 
 
 # In[ ]:
-
-
-X_train = []
-X_test = []
-y_train = []
-y_test = []
 def imageLoader(batch_size):
-    global X_train
-    global X_test
-    global y_train
-    global y_test
-    L = 7254
-    train_image = []
-    #this line is just to make the generator infinite, keras needs that    
+    L = len(X_train)
     
     batch_start = 0
     batch_end = batch_size
     while batch_start < L:
         print(batch_start)
+        train_image = []
         limit = min(batch_end, L)
 
-        train_slice = train.iloc[batch_start:limit]
         # print(train_slice.shape)
-        for i in range(train_slice.shape[0]):
-            img = image.load_img('Movies_Poster/Multi_Label_dataset/Images/' + train['Id'][i] + '.jpg', target_size=(400,400,3))
+        for name in X_train.iloc[batch_start:limit]['Id']:
+            img = image.load_img('Movies_Poster/Multi_Label_dataset/Images/' + name + '.jpg', target_size=(400,400,3))
             img = image.img_to_array(img)
-            print(img)
             # print(img.shape)
             img = img / 255
             train_image.append(img)
 
         # print(len(train_image))
         
-        X = np.array(train_image[batch_start:limit])
-        Y = y[batch_start:limit]
+        batch_X = np.array(train_image)
+        batch_Y = y_train[batch_start:limit]
 
-
-        # X_train, X_test, y_train, y_test = train_test_split(X, Y, random_state=42, test_size=0.1)
-        print(X.shape)
-        print(Y.shape)
-
-        # yield (X_train, y_train)
-        yield (X, Y)
+        yield (batch_X, batch_Y)
 
         batch_start += batch_size   
         batch_end += batch_size
