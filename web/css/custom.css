@@ -1,0 +1,26 @@
+.center-parent {
+    position: relative;
+}
+.center-child {
+    position: absolute;
+    top: 50%;
+    /* left: 50%; */
+    /* height: 30%; */
+    /* width: 50%; */
+    /* margin: -15% 0 0 -25%; */
+}
+
+.example-tile-icon {
+    align-content: space-around;
+    align-items: center;
+    background: #5755d9;
+    border-radius: .1rem;
+    color: #fff;
+    display: flex;
+    display: -ms-flexbox;
+    -ms-flex-align: center;
+    -ms-flex-line-pack: distribute;
+    font-size: 1.2rem;
+    height: 2rem;
+    width: 2rem;
+}
