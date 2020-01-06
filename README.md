@@ -1,6 +1,6 @@
 # Movie Genre Detection
 
-File System Retrieval
+Detection of movie genres using a movie dataset collected from the IMDB website.
 
 # Requirements
 
@@ -18,6 +18,3 @@ To run it, use:
 ```python
 python3 main.py
 ```
-
-
-
