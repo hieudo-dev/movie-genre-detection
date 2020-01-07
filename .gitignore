@@ -69,6 +69,8 @@ target/
 
 # ---> VisualStudioCode
 .settings
+.vscode
+.vscode/*
 
 src/Movies_Poster/*
 
