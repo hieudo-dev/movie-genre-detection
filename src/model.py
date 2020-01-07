@@ -19,8 +19,8 @@ import os
 
 # In[ ]:
 
-
-train = pd.read_csv('src/Movies_Poster/Multi_Label_dataset/train.csv')
+path_prefix = os.path.join(path, "src", "Movies_Poster", "Multi_Label_dataset")
+train = pd.read_csv(os.join(path_prefix, "train.csv"))
 train.shape[0]
 
 
@@ -33,7 +33,7 @@ X_train, X_test, y_train, y_test = train_test_split(train, y, random_state=42, t
 
 imgs = []
 for name in X_test['Id']:
-    img = image.load_img('src/Movies_Poster/Multi_Label_dataset/Images/' + name + '.jpg', target_size=(400,400,3))
+    img = image.load_img(os.join(path_prefix, "Images", name, ".jpg"), target_size=(400,400,3))
     img = image.img_to_array(img)
     # print(img.shape)
     img = img / 255
@@ -84,7 +84,7 @@ class BatchSequence(keras.utils.Sequence):
     def __getitem__(self, idx):
         train_image = []
         for name in self.x.iloc[idx * self.batch_size:(idx + 1) * self.batch_size]['Id']:
-            img = image.load_img('src/Movies_Poster/Multi_Label_dataset/Images/' + name + '.jpg', target_size=(400,400,3))
+            img = image.load_img(os.join(path_prefix, "Images", name, ".jpg"), target_size=(400,400,3))
             img = image.img_to_array(img)
             img = img / 255
             train_image.append(img)

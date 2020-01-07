@@ -3,8 +3,9 @@ let app = new Vue({
     data: {
         start: false,
         image: null,
+        image_base64: '',
         result: '',
-        prediction: '',
+        predictions: [],
     },
     mounted() {
         eel.lm()();
@@ -13,11 +14,20 @@ let app = new Vue({
         onUpload(event) {
             const file = event.target.files[0];
             this.image = URL.createObjectURL(file);
+
+            const reader = new FileReader();
+            reader.onload = (e) => {                
+                this.image_base64 = e.target.result
+            }
+            
+            reader.readAsDataURL(file);
         },
-        predict() {
+        async predict() {
+            console.log('H!');
 
+            let klasses = await eel.predict(this.image_base64)();
+            console.log(klasses);
+            this.predictions = klasses;
         }
-
-
     }
 })
