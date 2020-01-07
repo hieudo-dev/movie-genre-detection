@@ -58,10 +58,18 @@
             <span class="label label-secondary">Select a movie poster</span>
           </div>
           <div class="form-group m-2">
-            <!-- Image form -->
-            <label class="form-label label-sm">Directory</label>
-            <input type="file" class="form-input input-sm" id="directory" @change="onUpload" placeholder="Choose a poster">
             
+            <!-- Image form -->
+            <input type="file" class="form-input input-sm" id="directory" @change="onUpload"
+              placeholder="Choose a poster">
+              
+            <div class="divider"></div>
+
+            <!-- Image -->
+            <div class="text-center">
+              <img v-if="image" class="mt-2 image-fit-cover" :src="image" style="max-width: 400px; max-height: 400px;"  />
+            </div>
+
             <!-- Predict Button -->
             <div class="text-center">
               <button class="btn btn-primary btn-sm mt-2" @click="predict">
@@ -76,10 +84,9 @@
           <div class="text-center mt-2">
             <h6 style="margin-bottom: 0px;">{{ prediction }}</h6>
           </div>
+        </div>
         <div class="column"></div>
       </div>
-
-
     </div>
   </div>
 

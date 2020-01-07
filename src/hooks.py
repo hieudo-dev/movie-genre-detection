@@ -1,13 +1,16 @@
 import eel
+import os
+from keras.models import load_model
+
+
+model = None
 
 @eel.expose
-def load_model():
+def lm():
     pass
+    # path = os.getcwd()
+    # model = load_model(os.path.join(path, "dist", "model.h5"))
 
-# Load Model
-def loadModel():
-    path = os.getcwd()
-
-    model = load_model(os.path.join(path, "dist", "model.h5"))
-
-    return model
+@eel.expose
+def predict():
+    pass

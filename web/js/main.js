@@ -1,17 +1,23 @@
 let app = new Vue({
     el: '#root',
     data: {
+        start: false,
         image: null,
         result: '',
         prediction: '',
     },
     mounted() {
-        eel.load_model()();
+        eel.lm()();
     },
     methods: {
         onUpload(event) {
-            this.image = event.target.files[0]
-            console.log(this.image)
+            const file = event.target.files[0];
+            this.image = URL.createObjectURL(file);
+        },
+        predict() {
+
         }
+
+
     }
 })
