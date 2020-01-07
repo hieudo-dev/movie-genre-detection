@@ -1,0 +1,125 @@
+
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+
+
+\usepackage{url}
+\urldef{\mailsa}\path|{e.estevanell, r.garcia}@estudiantes.matcom.uh.cu|
+\urldef{\mailsb}\path||
+\urldef{\mailsc}\path||    
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Clasificaci\'on de anuncios en Revolico}
+
+% a short form should be given in case it is too long for the running head
+\titlerunning{Clasificaci\'on de anuncios en Revolico}
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+\author{Ernesto Luis Estevanell Valladares, Rodrigo Sua}
+%
+\authorrunning{Clasificaci\'on de anuncios en Revolico}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next; don't give your e-mail address
+% unless you accept that it will be published
+\institute{Facultad de Matem\'atica y Computaci\'on,\\ Universidad de la Habana, Habana, Cuba
+\mailsa\\
+\mailsb\\
+\mailsc\\
+\url{https://www.uh.cu}}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
+\toctitle{Lecture Notes in Computer Science}
+\tocauthor{Authors' Instructions}
+\maketitle
+
+
+\begin{abstract}
+
+Se propone lograr la detecci\'on de g\'eneros de pel\'iculas usando s\'olamente im\'agenes publicitarios de estas. Una red neuronal es entrenada para obtener informaci\'on latente contenida en las im\'agenes y usando estos, detectar  los g\'eneros de una pel\'icula, dado una imagen publicitaria. Como las pel\'iculas pueden pertenecer a m\'ultiples g\'eneros, el problema se reduce a un problema de \textit{Multi-label image clasification\footnote{Clasificaci\'on de im\'agenes de varias etiquetas}}. Para agilizar la implementaci\'on de la propuesta y facilitar su comparaci\'on con otras propuestas del estado del arte, se reutiliz\'o una base de datos de im\'agenes tomado de un trabajo relacionado \cite{weitachu}. Basado en este dataset, {TODO}. En la evaluaci\'on, se muestra los resultados de la propuesta, el cual obtiene un rendimiento bastante alentador comparado con los trabajos relacionados. Tamb\'ien fue implementada una interfaz visual para permitir la interacci\'on del usuario con el modelo que se propone.
+
+\keywords{Clasificador, Machine Learning, Procesamiento de texto, Aprendizaje supervisado}
+\end{abstract}
+
+
+\section{Introducci\'on}
+
+La extracci\'on de atributos visuales ha sido ampliamente estudiado en a\~nos recientes, dado que los atributos visuales pueden contribuir a aupar varias tareas como recuperaci\'on de im\'agenes \cite{fourteen}. La mayor\'ia de los estudios realizados se enfocan en reconocer entidades visuales como objetos y escenas, o extraer conceptos embebido en las im\'agenes.
+
+Existen algunos tipos de atributos visuales que se encuentran impl\'icitos en la imagen, pero son f\'acilmente reconocidos por los humanos. Estilos de imagenes\cite{four}, estimaci\'on de atractividad son algunas instancias de estos tipos de atributos.
+
+Al analizar los atributos visuales de diferentes tipos de im\'agenes, los p\'oster publicitarios de pel\'iculas constituyen im\'agenes con una gran variedad de atributos. Los p\'oster de pel\'iculas son creados para atraer la atenci\'on de las personas, por lo que deben ser im\'agenes con mucho atractivo y lleno de informaci\'on.
+
+Si analizamos es apreciar a mayor\'ia de los p\'osters contienen caracter\'isticas que describen a las pel\'iculas correspondientes. Resulta entonces interesante utilizar estos como objetos de estudio para realizar investigaci\'ones sobre 
+
+En este trabajo, se propone analizar p\'oster publicitarios de pel\'iculas y detectar los g\'eneros usando un red neuronal. Para esto se utiliza.
+
+\section{Estado del Arte}
+
+\section{Propuesta de Soluci\'on}
+	Se propone el uso de tres clasificadores:
+	\begin{itemize}
+		\item Naive Bayes \cite{}
+		\item Support Vector Machine (Linear kernel) \cite{}
+		\item Logistic Regression \cite{}
+	\end{itemize}
+
+\subsection{Preprocesamiento}
+	El preprocesamiento de los datos es una etapa fundamental de un \textit{pipeline} de \textit{machine learning}. Espec\'ificamente, al trabajar con texto, se necesitan realizar una serie de pasos para convertir los datos en una entrada v\'alida para un m\'etodo del dominio tratado.\\
+	
+	Entre los pasos tratados en nuestra propuesta se encuentran:
+	\begin{itemize}
+		\item tokenizar
+		\item \textit{stemming}
+		\item vectorizar
+	\end{itemize}
+
+	En la pr\'actica, una selecci\'on incorrecta de un m\'etodo en alg\'un paso puede llevar a un rendimiento bajo del \textit{pipeline} de clasificaci\'on. Adem\'as, existe una amplia gama de posibles t\'ecnicas para las funcionalidades anteriores, lo que hace de este un problema a lidiar.
+	
+	Por esta raz\'on se decidi\'o implementar de alguna manera un estimador general (del cual heredan los clasificadores) que permita la selecci\'on din\'amica de t\'ecnicas para cada paso. As\'i, se podr\'ia programar una b\'usqueda entre el espacio de posibles desiciones sin mucho esfuerzo.
+
+\section{Resultados}
+
+\bibliographystyle{plain}
+\bibliography{Bibliography}
+	
+\end{document}
