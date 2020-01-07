@@ -14,13 +14,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from tqdm import tqdm
 
 
 # In[ ]:
 
 
-train = pd.read_csv('Movies_Poster/Multi_Label_dataset/train.csv')
+train = pd.read_csv('Movies_Poster/Multi_Label_dataset/train.csv')[:500]
 train.shape[0]
 
 
@@ -82,46 +81,46 @@ model.add(Dense(25, activation='sigmoid'))
 
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
+L = len(X_train)
 
 # In[ ]:
-def imageLoader(batch_size):
-    L = len(X_train)
-    
+def imageLoader(batch_size):    
     batch_start = 0
     batch_end = batch_size
-    while batch_start < L:
-        print(batch_start)
-        train_image = []
-        limit = min(batch_end, L)
 
-        # print(train_slice.shape)
-        for name in X_train.iloc[batch_start:limit]['Id']:
-            img = image.load_img('Movies_Poster/Multi_Label_dataset/Images/' + name + '.jpg', target_size=(400,400,3))
-            img = image.img_to_array(img)
-            # print(img.shape)
-            img = img / 255
-            train_image.append(img)
+    while True:
+        while batch_start < L:
+            # print(batch_start)
+            train_image = []
+            limit = min(batch_end, L)
 
-        # print(len(train_image))
-        
-        batch_X = np.array(train_image)
-        batch_Y = y_train[batch_start:limit]
+            # print(train_slice.shape)
+            for name in X_train.iloc[batch_start:limit]['Id']:
+                img = image.load_img('Movies_Poster/Multi_Label_dataset/Images/' + name + '.jpg', target_size=(400,400,3))
+                img = image.img_to_array(img)
+                # print(img.shape)
+                img = img / 255
+                train_image.append(img)
 
-        yield (batch_X, batch_Y)
+            # print(len(train_image))
+            
+            batch_X = np.array(train_image)
+            batch_Y = y_train[batch_start:limit]
 
-        batch_start += batch_size   
-        batch_end += batch_size
+            yield (batch_X, batch_Y)
+
+            batch_start += batch_size   
+            batch_end += batch_size
 
             
-
-images = imageLoader(500)
+bs = 50
+images = imageLoader(bs)
 # image = next(images)
 # print(next(images))
 # for index, i in enumerate(images):
 #     print(index)
     # print(len(i[0]), len(i[1]))
-model.fit_generator(images, steps_per_epoch=14, epochs=10, validation_data=(X_test, y_test), verbose=2, initial_epoch=1)
-# model.fit(image, steps_per_epoch=14, epochs=10, validation_data=(X_test, y_test), verbose=2, initial_epoch=1)
+model.fit_generator(images, steps_per_epoch=(L / bs) + 1, epochs=3, validation_data=(X_test, y_test))
 
 
 
