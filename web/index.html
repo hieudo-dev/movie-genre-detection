@@ -30,12 +30,12 @@
     <div class="empty" v-if="!start" style="height: 100vh;">
       <div style="padding-top: 25vh;">
         <div class="empty-icon">
-          <i class="icon icon-copy" style="font-size: 100px;"></i>
+          <i class="icon icon-photo" style="font-size: 100px;"></i>
         </div>
-        <p class="empty-title h5">File System Retrieval</p>
-        <p class="empty-subtitle">Your choice when finding files</p>
+        <p class="empty-title h5">Movie Genre Detection</p>
+        <p class="empty-subtitle">Your choice when deciding what you like</p>
         <div class="empty-action">
-          <button class="btn btn-primary" @click="start = true">Retrieve</button>
+          <button class="btn btn-primary" @click="start = true">Lets predict!</button>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
     <div class="container" v-else>
       <div class="columns">
         <div class="column col-12 p-2 text-center mt-2">
-          <h4 style="margin-bottom: 0px;">File System Retrieval</h4>
+          <h4 style="margin-bottom: 0px;">Movie Genre Detection</h4>
         </div>
       </div>
 
@@ -55,86 +55,38 @@
         <div class="column">
           <!-- Left column -->
           <div class="text-center">
-            <span class="label label-secondary">Configuration</span>
+            <span class="label label-secondary">Select a movie poster</span>
           </div>
           <div class="form-group m-2">
-            <label class="form-label label-sm">Model</label>
-            <label class="form-radio form-inline">
-              <input type="radio" name="model" checked @click="load_model('vector')">
-              <i class="form-icon"></i>Vector
-            </label>
-            <label class="form-radio form-inline">
-              <input type="radio" name="model" @click="load_model('latent semantic')">
-              <i class="form-icon"></i>Latent Semantic
-            </label>
+            
+            <!-- Image form -->
+            <input type="file" class="form-input input-sm" id="directory" @change="onUpload"
+              placeholder="Choose a poster">
+              
+            <div class="divider"></div>
 
-            <label class="form-label label-sm">Directory</label>
-            <div class="has-icon-right">
-              <input type="text" class="form-input input-sm" :class="dir_success" id="directory" v-model="directory"
-                @keyup="validated_dir = false" placeholder="Choose a path">
-              <i class="form-icon icon icon-check icon-sm" v-if="validated_dir && valid_dir === true"></i>
-              <i class="form-icon icon icon-close icon-sm" v-if="validated_dir && valid_dir === false"></i>
+            <!-- Image -->
+            <div class="text-center">
+              <img v-if="image" class="mt-2 image-fit-cover" :src="image" style="max-width: 400px; max-height: 400px;"  />
             </div>
 
-            <!-- <label class="form-label label-sm">Relevant</label>
-            <input type="number" class="form-input input-sm" id="result_size" v-model="result_size"
-              placeholder="Choose how many relevant documents to show">
-            <div class="divider"></div> -->
-
+            <!-- Predict Button -->
             <div class="text-center">
-              <button class="btn btn-primary btn-sm mt-2" @click="config">
-                <i class="icon icon-refresh icon-sm"></i> Submit
+              <button class="btn btn-primary btn-sm mt-2" @click="predict">
+                <i class="icon icon-refresh icon-sm"></i> Predict
               </button>
             </div>
           </div>
 
           <div class="divider"></div>
 
-          <div class="form-group m-2">
-            <!-- <label for="query" class="form-label label-sm">Query</label> -->
-            <div class="has-icon-left input-group">
-              <input type="text" class="form-input input-sm" :class="{disabled: !configured}" id="query" v-model="query"
-                placeholder="Make a query">
-              <i class="form-icon icon icon-search"></i>
-              <button class="btn loading btn-sm" v-if="loading">Search</button>
-              <button class="btn btn-secondary input-group-btn btn-sm" :class="{disabled: !configured}" v-else
-                @click="run_query">Search</button>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="mx-2 py-1 text-justify text-center text-dark s-rounded" v-if="files.length > 0"
-            style="background-color: #eef0f3; opacity: .9; max-height: 80vh; overflow-x: hidden; overflow-y: auto;">
-
-            <div class="tile tile-centered" v-for="file in displayed_files">
-              <div class="tile-icon">
-                <i class="icon icon-copy"></i>
-              </div>
-              <div class="tile-content">
-                <div class="tile-title">{{ file[0].split('/')[file[0].split('/').length - 1] }}</div>
-                <small class="tile-subtitle text-success text-break">{{ file[1] }}</small>
-              </div>
-              <div class="tile-action">
-                <button class="btn btn-link">
-                  <i class="icon icon-more-vert"></i>
-                </button>
-              </div>
-
-              <!-- <div class="popover-container">
-                <div class="card">
-                  <div class="card-header">Some content</div>
-                  <div class="card-body">Some more content</div>
-                  <div class="card-footer">Final content</div>
-                </div>
-              </div> -->
-            </div>
+          <!-- Predicted class -->
+          <div class="text-center mt-2">
+            <h5 style="margin-bottom: 0px;" v-for="prediction in predictions">{{ prediction }}</h5>
           </div>
         </div>
         <div class="column"></div>
       </div>
-
-
     </div>
   </div>
 
