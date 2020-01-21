@@ -1,0 +1,141 @@
+
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+
+  
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Detecci\'on de g\'eneros de pel\'iculas basadas en im\'agenes publicitarios}
+
+% a short form should be given in case it is too long for the running head
+\titlerunning{}
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+\author{Alexander González Fertel, Hieu Do Ngoc, Joel David Hern\'andez Cruz}
+%
+\authorrunning{}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next; don't give your e-mail address
+% unless you accept that it will be published
+\institute{Facultad de Matem\'atica y Computaci\'on,\\ Universidad de la Habana, Habana, Cuba}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
+\toctitle{Lecture Notes in Computer Science}
+\tocauthor{Authors' Instructions}
+\maketitle
+
+
+\begin{abstract}
+
+Se propone lograr la detecci\'on de g\'eneros de pel\'iculas usando s\'olamente im\'agenes publicitarias de estas. Una red neuronal es entrenada para obtener informaci\'on contenida impl\'icitamente en las im\'agenes y mediante estas, detectar  los g\'eneros de una pel\'icula, dado una imagen publicitaria. Para agilizar la implementaci\'on de la propuesta y facilitar su evaluaci\'on, se reutiliz\'o una base de datos de im\'agenes tomada de la p\'agina \textit{IMDb}, proveniente de un trabajo relacionado\cite{weitachu}. En la evaluaci\'on, se muestra los resultados de la propuesta, la cual obtiene un rendimiento bastante alentador comparado con los trabajos relacionados. Tamb\'ien fue implementada una interfaz visual para permitir la interacci\'on del usuario con el modelo entrenado.
+
+\keywords{Detecci\'on de g\'eneros de pel\'iculas, CNN, Aprendizaje supervisado, Aprendizaje Profundo}
+\end{abstract}
+
+
+\section{Introducci\'on}
+
+La extracci\'on de atributos visuales ha sido ampliamente estudiado en a\~nos recientes, dado que los atributos visuales pueden contribuir a aupar varias tareas como la recuperaci\'on de im\'agenes \cite{fourteen}. La mayor\'ia de los estudios realizados se enfocan en reconocer entidades visuales como objetos y escenas, o extraer conceptos embebido en las im\'agenes.
+
+Existen algunos tipos de atributos visuales que se encuentran impl\'icitos en la imagen, pero son f\'acilmente reconocidos por los humanos. Estilos de imagenes\cite{weitachu}, estimaci\'on de atractividad son algunas instancias de estos tipos de atributos.
+
+Al analizar los atributos visuales de diferentes tipos de im\'agenes, los p\'oster publicitarios de pel\'iculas constituyen im\'agenes con una gran variedad de atributos. Los p\'oster de pel\'iculas son creados para atraer la atenci\'on de las personas, por lo que deben ser im\'agenes con mucho atractivo y lleno de informaci\'on.
+
+Si analizamos detallademente este tipo de im\'agenes, se puede apreciar que la mayor\'ia de los p\'osters contienen caracter\'isticas que describen a las pel\'iculas correspondientes. Resulta entonces interesante utilizar estos como objetos de estudio para realizar investigaci\'ones sobre la detecci\'on de atributos visuales.
+
+\section{Estado del Arte}
+Han habido pocos trabajos sobre la clasificici\'on de g\'eneros de pel\'iculas. Uno de los primeros trabajos fue propuesto por Rashhed and Shah\cite{eleven}. Su propuesta trabaja en la clasificaci\'on de trail\'ers de pel\'iculas, categoriz\'andolos en tr\'ailers de pel\'iculas de acci\'on o de pel\'iculas no de acci\'on. Para esto se basan en la duraci\'on de las tomas y el contenido en s\'i. Las pel\'iculas no de acci\'on se clasifican en comedia, horror, o drama/otros, lo que fue inspirado por principios cinematogr\'aficos. Las pel\'iculas de acci\'on se clasifica a\'un m\'as basado en la energ\'ia auditiva y las explosiones que se detecten en el tr\'ailer.
+
+Recientemente, Simoesetal \cite{fifteen} usó una red neuronal convolucional (CNN) para clasificar los tr\'ailers de películas en géneros. Proponen que los datos de un tráiler de película sea analizados y se verifica que las características extraídas por el enfoque de CNN superan significativamente las características dise\~nadas a mano. Wehrmann and Barros \cite{seventeen} propone un método de clasificación que consiste en una CNN profunda con conexiones residuales. Además de la información visual, extrajeron tambi\'en información temporal para la clasificación de películas.
+
+N\'otese que, aunque la clasificación de una imagen de póster es el objetivo principal de este trabajo, las posibles contribuciones de este estudio no se limitarán a esto. Con la clasificación de los géneros de películas, podemos construir un sistema de recomendación de películas, suponiendo que a una persona le gusten las películas de géneros similares. La relación entre los objetos y las escenas de película puede ser descubierta, y pueden ser pistas importantes para los dramaturgos para diseñar p\'osteres publicitarios. Basados en la experiencia de la construcción del modelo, podemos extender este modelo computacional para estimar otras propiedades de película como por ejemplo, las ganancias obtenidas.
+
+\section{Propuesta de Soluci\'on}
+Como las pel\'iculas pueden pertenecer a m\'ultiples g\'eneros, la detecci\'on de sus g\'eneros se reduce a un problema de \textit{Multi-label image clasification}. Este problema consiste en una variante del problema general de \textit{clasificaci\'on} donde se pueden asociar varias etiquetas simultáneamente a cada instancia. Es decir, dado una imagen, se le asocia simult\'aneamente un conjunto de etiquetas.
+
+Para resolver el problema en cuesti\'on, se decidi\'o utilizar un enfoque basado en Aprendizaje Profundo. En particular, se har\'a uso de las redes neuronales convolucionales\footnote{Convolutional Neural Networks} debido a que son las herramientas que m\'as se utiliza en el estado del arte; estos pueden alcanzar una gran precisi\'on si se entrenan con suficientes datos.
+
+A continuaci\'on se explican detallamente las distintas etapas en que consiste la propuesta.
+
+\subsection{Cargar y preprocesar los datos}
+Primero se carga todas las imágenes y luego se preprocesan para estandarizar sus dimensiones. Para comprobar cómo funcionará el modelo en datos no vistos (datos de prueba), se crea un conjunto de validación. Se entrena el modelo en el conjunto de entrenamiento y se valida utilizando el conjunto de validación (práctica estándar de \textit{Machine Learning}).
+
+\subsection{Definir la arquitectura del modelo}
+El siguiente paso es definir la arquitectura de la red neuronal. Esto incluye decidir la cantidad de capas ocultas, la cantidad de neuronas en cada capa, la función de activación, etc. Para escoger el dise\~no de la arquitectura de la red, se consult\'o los distintos trabajos existentes en la actualidad sobre el tema, en la Figura \ref{fig:model} se puede apreciar la arquitectura dise\~nada.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=185px]{model.jpg}
+	\caption{Descripci\'on de la arquitectura de red}
+	\label{fig:model}
+\end{figure}
+
+\subsection{Entrenar el modelo}
+Para entrenar la red neuronal se pasan las imágenes de entrenamiento y sus correspondientes etiquetas. Aquí también se pasan las imágenes de validación que sirven para validar qué tan bien se desempeñará el modelo en datos no vistos.
+
+
+\subsection{Hacer predicciones}
+Finalmente, para facilitar la interacci\'on con el modelo entrenado, se realiz\'o una interfaz visual usando tecnolog\'ias webs. La aplicaci\'on manipula un modelo previamente entrenado para realizar las predicciones solicitadas.
+
+En la interfaz se presentan 2 zonas de interacci\'on, al inicio, se encuentra la zona en donde se escoge la imagen del p\'oster a utilizar; debajo se presenta una vista previa de la imagen.
+En la segunda zona, se le muestra al usuario el top 3 de los g\'eneros m\'as predominantes predecidos por el modelo, al presionar el bot\'on disponible.
+
+
+\section{Resultados}
+Contamos con un Dataset de 7245 posters de películas. Para evaluar el género de una película dado su poster decidimos escoger 90 \% de estas imágenes para entrenar los modelos y el resto de las imágenes para realizar pruebas.
+Para poder realizar la implementaci\'on de la propuesta, al no disponer de suficiente poder de c\'omputo, se desarrolló el entrenamiento del modelo por lotes, usando la función fit\_generator() de $keras$ y se implement\'o los metodos \_\_getitem\_\_\(\) y \_\_len\_\_\(\) heredando de la clase $keras.utils.Sequence$.
+
+Como podemos observar en la Figura \ref{fig:acc} nuestro modelo clasifica con una precisión de casi 91 \%.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=120px]{acc.png}
+	\caption{Precisi\'on del modelo}
+	\label{fig:acc}
+\end{figure}
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{Bibliography}
+	
+\end{document}

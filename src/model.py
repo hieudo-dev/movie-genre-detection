@@ -16,7 +16,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from tqdm import tqdm
 import os
 import shutil
 
@@ -109,6 +108,7 @@ train.shape[0]
 # In[ ]:
 # model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
+L = len(X_train)
 
 # In[ ]:
 # class BatchSequence(keras.utils.Sequence):
