@@ -1,0 +1,26 @@
+{
+    "BaseLine": {
+        "false_positive": 1069,
+        "false_negative": 1554,
+        "true_positive": 624,
+        "true_negative": 14903,
+        "precision": 0.3685764968395233,
+        "recall": 0.28650137782096863
+    },
+    "Model2": {
+        "false_positive": 888,
+        "false_negative": 1373,
+        "true_positive": 805,
+        "true_negative": 15084,
+        "precision": 0.47548729181289673,
+        "recall": 0.369605153799057
+    },
+    "Model3": {
+        "false_positive": 849,
+        "false_negative": 1334,
+        "true_positive": 844,
+        "true_negative": 15123,
+        "precision": 0.4985233247280121,
+        "recall": 0.3875114917755127
+    }
+}
